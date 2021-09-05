@@ -4,7 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon --watch 'src/' --exec \"ts-node src/server.ts\" -e ts",
+    "test": "jest --maxWorkers=1",
+    "typeorm-ts": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
+    "docker:test": "docker-compose -p user-crud-test -f docker-compose-test.yml run --rm test",
+    "docker:migration:run": "docker-compose -f docker-compose-cli.yml run --rm cli npm run typeorm-ts migration:run",
+    "docker:migration:generate": "docker-compose -f docker-compose-cli.yml run --rm cli npm run typeorm-ts migration:generate -- -n"
   },
   "repository": {
     "type": "git",

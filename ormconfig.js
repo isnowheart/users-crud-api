@@ -8,7 +8,7 @@ const envs = {
 		database: process.env.DB_DATABASE,
 		synchronize: false,
 		logging: true,
-		entities: ["src/entities/*/.ts"],
+		entities: ["src/entities/**/*.ts"],
 		migrations: ["src/migration/*.ts"],
 		cli: { entitiesDir: "src/entities", migrationsDir: "src/migration" },
 	},
