@@ -1,6 +1,8 @@
+import { Injectable } from '@nestjs/common'
 import { User } from '../../entities/User'
 import { EditUserParams, StoreUserParams } from '../users/DTO/UserParams'
 
+@Injectable()
 export default class Provider {
   async index():Promise<Array<User>> {
     const userList = await User.find()
