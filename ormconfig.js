@@ -35,7 +35,7 @@ const envs = {
 		synchronize: true,
 		logging: false,
 		dropSchema: true,
-		entities: ["src/entities/*/.ts"],
+		entities: ["src/entities/**/*.ts"],
 		cli: { entitiesDir: "src/entities" },
 	},
 };

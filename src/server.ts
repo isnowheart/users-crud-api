@@ -10,7 +10,7 @@ async function bootstrap() {
   const config = new DocumentBuilder().setTitle(name).setDescription(description).setVersion(version).build()
   const customOptions: SwaggerCustomOptions = { customSiteTitle: 'Users CRUD Documentation' }
   const document = SwaggerModule.createDocument(app, config)
-  SwaggerModule.setup('documentation', app, document, customOptions)
+  SwaggerModule.setup('docs', app, document, customOptions)
   await app.listen(3000)
 }
 

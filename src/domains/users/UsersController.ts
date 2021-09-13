@@ -1,9 +1,9 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Put } from "@nestjs/common";
 import { EditUserBodyParams } from './DTO/EditUserBodyParams'
 import { StoreUserBodyParams } from './DTO/StoreUserBodyParams'
 import { User } from "../../entities/User";
 import { UserRouteParams } from './DTO/UserRouteParams'
-import Provider from "./provider";
+import Provider from "./Provider";
 
 @Controller('users')
 export class UsersController {
@@ -31,6 +31,7 @@ export class UsersController {
   } 
 
   @Delete(':id')
+  @HttpCode(HttpStatus.NO_CONTENT)
   async delete(@Param() params:UserRouteParams):Promise<void> {
     return this.userProvider.delete(params.id) 
   }
