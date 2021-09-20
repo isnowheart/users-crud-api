@@ -1,11 +1,11 @@
-import ApiFactory from "../../../../factories/ApiFactory"
-import Provider from "../../../../../src/domains/users/Provider"
-import UserFactory from "../../../../factories/UserFactory"
-import { Connection, createConnection } from "typeorm"
 import { INestApplication } from "@nestjs/common"
+import * as request from 'supertest'
+import { Connection, createConnection } from "typeorm"
 import { User } from "../../../../../src/entities/User"
 import { UsersController } from  "../../../../../src/domains/users/UsersController"
-import * as request from 'supertest'
+import Provider from "../../../../../src/domains/users/Provider"
+import ApiFactory from "../../../../factories/ApiFactory"
+import UserFactory from "../../../../factories/UserFactory"
 
 let connection:Connection
 let api:INestApplication
@@ -28,16 +28,16 @@ it('Should return an User per ID', async () => {
   expect(response.body).toEqual(
     expect.objectContaining({ id: user.id, username: user.username, email: user.email })
   )
+})
 
-  it('Should return a not found user error', async () => {
-    const response = await request(api.getHttpServer()).get(`/users/${user.id}123`)
-  
-    expect(response.status).toBe(404)
-    expect(response.body).toHaveProperty('statusCode')
-    expect(response.body.statusCode).toEqual(response.status)
-    expect(response.body).toHaveProperty('message')
-    expect(response.body.message).toEqual('User not found.')
-    expect(response.body).toHaveProperty('error')
-    expect(response.body.error).toEqual('Not Found')
-  })
+it('Should return a not found user error', async () => {
+  const response = await request(api.getHttpServer()).get(`/users/${user.id}123`)
+
+  expect(response.status).toBe(404)
+  expect(response.body).toHaveProperty('statusCode')
+  expect(response.body.statusCode).toEqual(response.status)
+  expect(response.body).toHaveProperty('message')
+  expect(response.body.message).toEqual('User not found.')
+  expect(response.body).toHaveProperty('error')
+  expect(response.body.error).toEqual('Not Found')
 })

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common'
+import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common'
 import { User } from '../../entities/User'
 import { EditUserParams, StoreUserParams } from '../users/DTO/UserParams'
 
@@ -10,25 +10,43 @@ export default class Provider {
   }
 
   async show(id:number):Promise<User> {
-    const getUser = await User.findOne(id)
-    return getUser
+    try {
+      const getUser = await User.findOneOrFail(id)
+      return getUser
+    } catch (e) {
+      throw new NotFoundException('User not found.')
+    }
   }
 
   async store(body:StoreUserParams):Promise<User> {
-    const newUser = User.create({...body})
-    await newUser.save()
-    return newUser
+    try {
+      const newUser = User.create({...body})
+      await newUser.save()
+      return newUser
+    } catch (e) {
+      throw new BadRequestException(e)
+    }
   }
 
   async edit(id:number, body:EditUserParams):Promise<User> {
     const updateUser = await User.findOne(id)
-    updateUser.setAttributes(body)
-    await updateUser.save()
-    return updateUser
+    if (!updateUser) throw new NotFoundException('User not found.')
+    try {
+      updateUser.setAttributes(body)
+      await updateUser.save()
+      return updateUser
+    } catch (e) {
+      throw new BadRequestException(e)
+    }
   }
 
   async delete(id:number):Promise<void> {
     const deleteUser = await User.findOne(id)
-    await deleteUser.remove() 
+    if(!deleteUser) throw new NotFoundException('User not found.')
+    try {
+      await deleteUser.remove()
+    } catch (e) {
+      throw new InternalServerErrorException()
+    }
   }
 }

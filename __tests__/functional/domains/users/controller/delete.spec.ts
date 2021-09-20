@@ -32,7 +32,6 @@ it('Should return a not found user error', async () => {
   const response = await request(api.getHttpServer()).delete(`/users/${user.id}123`)
 
   expect(response.status).toBe(404)
-
   expect(response.body).toHaveProperty('statusCode')
   expect(response.body.statusCode).toEqual(response.status)
   expect(response.body).toHaveProperty('message')
